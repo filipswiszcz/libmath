@@ -3,11 +3,14 @@
 !/**/
 !*.*
 
-# xcode debug files
-*.dSYM
+# build files
+build
 
 # vscode files
 .vscode
+
+# xcode debug files
+*.dSYM
 
 # macos files
 .DS_Store
