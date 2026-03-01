@@ -9,6 +9,8 @@
 #define vec2_add(a, b) (m_vec2_add(a, b))
 #define vec2_sub(a, b) (m_vec2_sub(a, b))
 #define vec2_mul(a, b) (m_vec2_mul(a, b))
+#define vec2_dot(a, b) (m_vec2_dot(a, b))
+#define vec2_cross(a, b) (m_vec2_cross(a, b))
 
 typedef struct {
     float x, y;
@@ -26,12 +28,22 @@ static inline vec2_t m_vec2_mul(vec2_t v, float s) {
     return (vec2_t) {(v).x * (s), (v).y * (s)};
 }
 
+static inline float m_vec2_dot(vec2_t a, vec2_t b) {
+    return (a.x * b.x + a.y * b.y);
+}
+
+static inline float m_vec2_cross(vec2_t a, vec2_t b) {
+    return (a.x * b.y - a.y * b.x);
+}
+
 // VEC3
 
 #define vec3(x, y, z) ((vec3_t) {x, y, z})
 #define vec3_add(a, b) (m_vec3_add(a, b))
 #define vec3_sub(a, b) (m_vec3_sub(a, b))
 #define vec3_mul(a, b) (m_vec3_mul(a, b))
+#define vec3_dot(a, b) (m_vec3_dot(a, b))
+#define vec3_cross(a, b) (m_vec3_cross(a, b))
 
 typedef struct {
     float x, y, z;
@@ -49,12 +61,21 @@ static inline vec3_t m_vec3_mul(vec3_t v, float s) {
     return (vec3_t) {(v).x * (s), (v).y * (s), (v).z * (s)};
 }
 
+static inline float m_vec3_dot(vec3_t a, vec3_t b) {
+    return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+static inline vec3_t m_vec3_cross(vec3_t a, vec3_t b) {
+    return (vec3_t) {a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x};
+}
+
 // VEC4
 
 #define vec4(x, y, z, w) ((vec4_t) {x, y, z, w})
 #define vec4_add(a, b) (m_vec4_add(a, b))
 #define vec4_sub(a, b) (m_vec4_sub(a, b))
 #define vec4_mul(a, b) (m_vec4_mul(a, b))
+#define vec4_dot(a, b) (m_vec4_dot(a, b))
 
 typedef struct {
     float x, y, z, w;
@@ -70,6 +91,10 @@ static inline vec4_t m_vec4_sub(vec4_t a, vec4_t b) {
 
 static inline vec4_t m_vec4_mul(vec4_t v, float s) {
     return (vec4_t) {(v).x * (s), (v).y * (s), (v).z * (s), (v).w * (s)};
+}
+
+static inline float m_vec4_dot(vec4_t a, vec4_t b) {
+    return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 }
 
 // MAT2
