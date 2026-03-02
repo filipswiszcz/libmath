@@ -146,6 +146,7 @@ static inline mat3_t m_mat3_add(mat3_t a, mat3_t b) {
     {0, 0, 0, v} \
 }})
 #define mat4_add(a, b) (m_mat4_add(a, b))
+#define mat3_ortho(l, r, t, b, zn, zf) (m_mat3_ortho(l, r, t, b, zn, zf))
 
 typedef struct {
     float m[4][4];
@@ -158,6 +159,18 @@ static inline mat4_t m_mat4_add(mat4_t a, mat4_t b) {
         {a.m[2][0] + b.m[2][0], a.m[2][1] + b.m[2][1], a.m[2][2] + b.m[2][2], a.m[2][3] + b.m[2][3]},
         {a.m[3][0] + b.m[3][0], a.m[3][1] + b.m[3][1], a.m[3][2] + b.m[3][2], a.m[3][3] + b.m[3][3]}
     }};
+}
+
+static inline mat4_t m_mat4_ortho(float l, float r, float t, float b, float zn, float zf) {
+    mat4_t m = mat4(0.0f);
+    m.m[0][0] = 2.0f / (r - l);
+    m.m[1][1] = 2.0f / (t - b);
+    m.m[2][2] = -2.0f / (zf / zn);
+    m.m[3][0] = -(r + l) / (r - l);
+    m.m[3][1] = -(t + b) / (t - b);
+    m.m[3][2] = -(zf + zn) / (zf - zn);
+    m.m[3][3] = 1.0f;
+    return m;
 }
 
 // QUAT
