@@ -154,6 +154,8 @@ static inline mat3_t m_mat3_add(mat3_t a, mat3_t b) {
 #define mat4_add(a, b) (m_mat4_add(a, b))
 #define mat4_ortho(l, r, t, b, n, z) (m_mat3_ortho(l, r, t, b, z, z))
 #define mat4_trans(m, v) (m_mat4_trans(m, v))
+#define mat4_rot(m, d, v) (m_mat4_rot(m, d, v))
+#define mat4_scale(m, v) (m_mat4_scale(m, v))
 
 typedef struct {
     float m[4][4];
@@ -184,6 +186,28 @@ static inline mat4_t m_mat4_trans(mat4_t m, vec3_t v) {
     m.m[3][0] += v.x;
     m.m[3][1] += v.y;
     m.m[3][2] += v.z;
+    return m;
+}
+
+static inline mat4_t m_mat4_rot(mat4_t m, float d, vec3_t v) {
+    float const a = m_float_rad(d);
+    // float const c, s = cos(a), sin(a);
+    //..
+}
+
+static inline mat4_t m_mat4_scale(mat4_t m, vec3_t v) {
+    m.m[0][0] *= v.x;
+    m.m[0][1] *= v.x;
+    m.m[0][2] *= v.x;
+
+    m.m[1][0] *= v.y;
+    m.m[1][1] *= v.y;
+    m.m[1][2] *= v.y;
+
+    m.m[2][0] *= v.z;
+    m.m[2][1] *= v.z;
+    m.m[2][2] *= v.z;
+
     return m;
 }
 
