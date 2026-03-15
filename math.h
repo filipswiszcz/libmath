@@ -4,9 +4,18 @@
 #define PI 3.14159265358979323846
 
 #define float_rad(d) (m_float_rad(d))
+#define float_deg(r) (m_float_deg(r))
 
 static inline float m_float_rad(float d) {
     return d * 0.0174532951994329576923690768489;
+}
+
+static inline float m_float_deg(float r) {
+    return r * 57.2957795130823208767981548141051;
+}
+
+static inline float m_float_cos(float x) {
+    //..
 }
 
 // VEC2
@@ -152,7 +161,7 @@ static inline mat3_t m_mat3_add(mat3_t a, mat3_t b) {
     {0, 0, 0, v} \
 }})
 #define mat4_add(a, b) (m_mat4_add(a, b))
-#define mat4_ortho(l, r, t, b, n, z) (m_mat3_ortho(l, r, t, b, z, z))
+#define mat4_ortho(l, r, t, b, n, f) (m_mat4_ortho(l, r, t, b, n, f))
 #define mat4_trans(m, v) (m_mat4_trans(m, v))
 #define mat4_rot(m, d, v) (m_mat4_rot(m, d, v))
 #define mat4_scale(m, v) (m_mat4_scale(m, v))
@@ -174,7 +183,7 @@ static inline mat4_t m_mat4_ortho(float l, float r, float t, float b, float n, f
     mat4_t m = mat4(0.0f);
     m.m[0][0] = 2.0f / (r - l);
     m.m[1][1] = 2.0f / (t - b);
-    m.m[2][2] = -2.0f / (f / n);
+    m.m[2][2] = -2.0f / (f - n);
     m.m[3][0] = -(r + l) / (r - l);
     m.m[3][1] = -(t + b) / (t - b);
     m.m[3][2] = -(f + n) / (f - n);
