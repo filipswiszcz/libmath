@@ -5,6 +5,7 @@
 
 #define float_rad(d) (m_float_rad(d))
 #define float_deg(r) (m_float_deg(r))
+#define float_cos(x, t) (m_float_cos(x, t))
 
 static inline float m_float_rad(float d) {
     return d * 0.0174532951994329576923690768489;
@@ -14,8 +15,28 @@ static inline float m_float_deg(float r) {
     return r * 57.2957795130823208767981548141051;
 }
 
-static inline float m_float_cos(float x) {
-    //..
+static inline float m_float_sin(float x) {}
+
+static inline float m_float_cos(float x, int t) { // taylor with running product, t = terms
+    int d = (int) (x / PI);
+    x = x - (d * PI);
+
+    char s = 1;
+    if (d % 2 != 0) s = -1;
+
+    double r = 1.0;
+    double e = 1.0;
+    double n = x * x;
+
+    for (int i = 1; i <= t; i++) {
+        double c = 2.0f * i;
+        double g = c * (c - 1.0);
+        e *= n / g;
+        if (i % 2 == 0) r += e;
+        else r -= e;
+    }
+
+    return s * r;
 }
 
 // VEC2
