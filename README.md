@@ -1,6 +1,6 @@
 # libmath
 
-A single-header C math library.
+A single-header math library.
 
 ### Example
 
