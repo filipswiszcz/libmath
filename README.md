@@ -1,8 +1,8 @@
 # libmath
 
-A single-header C math library for graphics and vector calculus.
+A single-header C math library.
 
-### Quickstart
+### Example
 
 ```c
 #include "math.h"
@@ -30,11 +30,12 @@ int main(void) {
 All operations are implemented as inline functions and exposed via macros. 
 
 * **Types:** `vec2_t`, `vec3_t`, `vec4_t`, `mat2_t`, `mat3_t`, `mat4_t`, `quat_t`
-* **Scalars:** `PI`, `float_rad(d)`, `float_deg(r)`
-* **vec2:** `vec2(x, y)`, `vec2_add(a, b)`, `vec2_sub(a, b)`, `vec2_mul(a, b)`, `vec2_dot(a, b)`, `vec2_cross(a, b)`
-* **vec3:** `vec3(x, y, z)`, `vec3_add(a, b)`, `vec3_sub(a, b)`, `vec3_mul(a, b)`, `vec3_dot(a, b)`, `vec3_cross(a, b)`
-* **vec4:** `vec4(x, y, z, w)`, `vec4_add(a, b)`, `vec4_sub(a, b)`, `vec4_mul(a, b)`, `vec4_dot(a, b)`
-* **mat2:** `mat2(v)`, `mat2_add(a, b)`
-* **mat3:** `mat3(v)`, `mat3_add(a, b)`
-* **mat4:** `mat4(v)`, `mat4_add(a, b)`, `mat4_ortho(l, r, t, b, n, f)`, `mat4_trans(m, v)`, `mat4_rot(m, d, v)`, `mat4_scale(m, v)`
-* **quat:** `quat(x, y, z, w)`
+* **Constants** `PI`
+* **Utils:** `float_rad(d)`, `float_deg(r)`, `float_sin(r, t)`, `float_cos(r, t)`
+* **vec2_t:** `vec2(x, y)`, `vec2_add(a, b)`, `vec2_sub(a, b)`, `vec2_mul(a, b)`, `vec2_dot(a, b)`, `vec2_cross(a, b)`
+* **vec3_t:** `vec3(x, y, z)`, `vec3_add(a, b)`, `vec3_sub(a, b)`, `vec3_mul(a, b)`, `vec3_dot(a, b)`, `vec3_cross(a, b)`
+* **vec4_t:** `vec4(x, y, z, w)`, `vec4_add(a, b)`, `vec4_sub(a, b)`, `vec4_mul(a, b)`, `vec4_dot(a, b)`
+* **mat2_t:** `mat2(v)`, `mat2_add(a, b)`
+* **mat3_t:** `mat3(v)`, `mat3_add(a, b)`
+* **mat4_t:** `mat4(v)`, `mat4_add(a, b)`, `mat4_ortho(l, r, t, b, n, f)`, `mat4_trans(m, v)`, `mat4_rot(m, d, v)`, `mat4_scale(m, v)`
+* **quat_t:** `quat(x, y, z, w)`
