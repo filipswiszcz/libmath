@@ -1,18 +1,38 @@
-#ifndef __LIBMATH__
-#define __LIBMATH__
+#ifndef __LIBMATH_H__
+#define __LIBMATH_H__
+
+#if defined(__cplusplus)
+    #define M_VEC2(x, y) vec2_t{x, y}
+    #define M_VEC3(x, y, z) vec3_t{x, y, z}
+    #define M_VEC4(x, y, z, w) vec4_t{x, y, z, w}
+    #define M_MAT2(v) mat2_t{{{v, 0}, {0, v}}}
+    #define M_MAT3(v) mat3_t{{{v, 0, 0}, {0, v, 0}, {0, 0, v}}}
+    #define M_MAT4(v) mat4_t{{{v, 0, 0, 0}, {0, v, 0, 0}, {0, 0, v, 0}, {0, 0, v}}}
+#else
+    #define M_VEC2(x, y) ((vec2_t) {x, y})
+    #define M_VEC3(x, y, z) ((vec3_t) {x, y, z})
+    #define M_VEC4(x, y, z, w) ((vec4_t) {x, y, z, w})
+    #define M_MAT2(v) ((mat2_t) {.m = {{v, 0}, {0, v}}})
+    #define M_MAT3(v) ((mat3_t) {.m = {{v, 0, 0}, {0, v, 0}, {0, 0, v}}})
+    #define M_MAT4(v) ((mat4_t) {.m = {{v, 0, 0, 0}, {0, v, 0, 0}, {0, 0, v, 0}, {0, 0, v}}})
+#endif
 
 #define PI 3.14159265358979323846
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
 #define float_rad(d) (m_float_rad(d))
 #define float_deg(r) (m_float_deg(r))
 #define float_cos(x, t) (m_float_cos(x, t))
 
 static inline float m_float_rad(float d) {
-    return d * 0.0174532951994329576923690768489;
+    return (float) (d * 0.0174532951994329576923690768489);
 }
 
 static inline float m_float_deg(float r) {
-    return r * 57.2957795130823208767981548141051;
+    return (float) (r * 57.2957795130823208767981548141051);
 }
 
 static inline float m_float_sin(float x) {}
@@ -41,15 +61,23 @@ static inline float m_float_cos(float x, int t) { // taylor with running product
 
 // VEC2
 
-#define vec2(x, y) ((vec2_t) {x, y})
+#define vec2(x, y) M_VEC2(x, y)
 #define vec2_add(a, b) (m_vec2_add(a, b))
 #define vec2_sub(a, b) (m_vec2_sub(a, b))
 #define vec2_mul(a, b) (m_vec2_mul(a, b))
 #define vec2_dot(a, b) (m_vec2_dot(a, b))
 #define vec2_cross(a, b) (m_vec2_cross(a, b))
 
-typedef struct {
-    float x, y;
+typedef struct vec2 {
+    union {
+        struct {float x, y;};
+        struct {float u, v;};
+    };
+#if defined(__cplusplus)
+    constexpr vec2 operator+(const vec2 &o) const noexcept {
+        return {x + o.x, y + o.y};
+    } 
+#endif
 } vec2_t;
 
 static inline vec2_t m_vec2_add(vec2_t a, vec2_t b) {
@@ -74,7 +102,7 @@ static inline float m_vec2_cross(vec2_t a, vec2_t b) {
 
 // VEC3
 
-#define vec3(x, y, z) ((vec3_t) {x, y, z})
+#define vec3(x, y, z) M_VEC3(x, y, z)
 #define vec3_add(a, b) (m_vec3_add(a, b))
 #define vec3_sub(a, b) (m_vec3_sub(a, b))
 #define vec3_mul(a, b) (m_vec3_mul(a, b))
@@ -107,7 +135,7 @@ static inline vec3_t m_vec3_cross(vec3_t a, vec3_t b) {
 
 // VEC4
 
-#define vec4(x, y, z, w) ((vec4_t) {x, y, z, w})
+#define vec4(x, y, z, w) M_VEC4(x, y, z, w)
 #define vec4_add(a, b) (m_vec4_add(a, b))
 #define vec4_sub(a, b) (m_vec4_sub(a, b))
 #define vec4_mul(a, b) (m_vec4_mul(a, b))
@@ -135,10 +163,7 @@ static inline float m_vec4_dot(vec4_t a, vec4_t b) {
 
 // MAT2
 
-#define mat2(v) ((mat2_t) {.m = { \
-    {v, 0}, \
-    {0, v} \
-}})
+#define mat2(v) M_MAT2(v)
 #define mat2_add(a, b) (m_mat2_add(a, b))
 
 typedef struct {
@@ -154,11 +179,7 @@ static inline mat2_t m_mat2_add(mat2_t a, mat2_t b) {
 
 // MAT3
 
-#define mat3(v) ((mat3_t) {.m = { \
-    {v, 0, 0}, \
-    {0, v, 0}, \
-    {0, 0, v} \
-}})
+#define mat3(v) M_MAT3(v)
 #define mat3_add(a, b) (m_mat3_add(a, b))
 
 typedef struct {
@@ -175,12 +196,7 @@ static inline mat3_t m_mat3_add(mat3_t a, mat3_t b) {
 
 // MAT4
 
-#define mat4(v) ((mat4_t) {.m = { \
-    {v, 0, 0, 0}, \
-    {0, v, 0, 0}, \
-    {0, 0, v, 0}, \
-    {0, 0, 0, v} \
-}})
+#define mat4(v) M_MAT4(v)
 #define mat4_add(a, b) (m_mat4_add(a, b))
 #define mat4_ortho(l, r, t, b, n, f) (m_mat4_ortho(l, r, t, b, n, f))
 #define mat4_trans(m, v) (m_mat4_trans(m, v))
@@ -243,10 +259,18 @@ static inline mat4_t m_mat4_scale(mat4_t m, vec3_t v) {
 
 // QUAT
 
-#define quat(x, y, z, w) {(quat_t) {x, y, z, w}}
+#if defined(__cplusplus)
+    #define quat(x, y, z, w) quat_t{x, y, z, w}
+#else
+    #define quat(x, y, z, w) {(quat_t) {x, y, z, w}}
+#endif
 
 typedef struct {
     float x, y, z, w;
 } quat_t;
 
-#endif // !__LIBMATH__
+#if defined(__cplusplus)
+}
+#endif
+
+#endif // !__LIBMATH_H__
