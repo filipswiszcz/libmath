@@ -1,6 +1,8 @@
 #ifndef __LIBMATH_H__
 #define __LIBMATH_H__
 
+#include <stdint.h>
+
 #if defined(__cplusplus)
     #define M_VEC2(x, y) vec2_t{x, y}
     #define M_VEC3(x, y, z) vec3_t{x, y, z}
@@ -69,27 +71,48 @@ static inline float m_float_cos(float x, int t) { // taylor with running product
 #define vec2_cross(a, b) (m_vec2_cross(a, b))
 
 typedef struct vec2 {
+#if defined(__cplusplus) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L)
     union {
         struct {float x, y;};
         struct {float u, v;};
+        float data[2];
     };
+#else
+    float x, y;
+#endif
+
 #if defined(__cplusplus)
-    constexpr vec2 operator+(const vec2 &o) const noexcept {
+    inline constexpr vec2(float _x, float _y) noexcept : x{_x}, y{_y} {}
+    inline constexpr vec2() noexcept : x{0}, y{0} {}
+
+    inline constexpr vec2 operator+(const vec2 &o) const noexcept {
         return {x + o.x, y + o.y};
-    } 
+    }
+    inline constexpr const float &operator()(const int32_t i) const noexcept {
+        return data[i];
+    }
+    inline float &operator()(const int32_t i) {
+        return data[i];
+    }
+    inline constexpr const float &operator[](const int32_t i) const noexcept {
+        return data[i];
+    }
+    inline float &operator[](const int32_t i) {
+        return data[i];
+    }
 #endif
 } vec2_t;
 
 static inline vec2_t m_vec2_add(vec2_t a, vec2_t b) {
-    return (vec2_t) {a.x + b.x, a.y + b.y};
+    return M_VEC2(a.x + b.x, a.y + b.y);
 }
 
 static inline vec2_t m_vec2_sub(vec2_t a, vec2_t b) {
-    return (vec2_t) {a.x - b.x, a.y - b.y};
+    return M_VEC2(a.x - b.x, a.y - b.y);
 }
 
 static inline vec2_t m_vec2_mul(vec2_t v, float s) {
-    return (vec2_t) {(v).x * (s), (v).y * (s)};
+    return M_VEC2((v).x * (s), (v).y * (s));
 }
 
 static inline float m_vec2_dot(vec2_t a, vec2_t b) {
@@ -109,8 +132,15 @@ static inline float m_vec2_cross(vec2_t a, vec2_t b) {
 #define vec3_dot(a, b) (m_vec3_dot(a, b))
 #define vec3_cross(a, b) (m_vec3_cross(a, b))
 
-typedef struct {
-    float x, y, z;
+typedef struct vec3 {
+    union {
+        struct {float x, y, z;};
+    };
+#if defined(__cplusplus)
+    constexpr vec3 operator+(const vec3 &o) const noexcept {
+        return {x + o.x, y + o.y, z + o.z};
+    }
+#endif
 } vec3_t;
 
 static inline vec3_t m_vec3_add(vec3_t a, vec3_t b) {
@@ -141,8 +171,15 @@ static inline vec3_t m_vec3_cross(vec3_t a, vec3_t b) {
 #define vec4_mul(a, b) (m_vec4_mul(a, b))
 #define vec4_dot(a, b) (m_vec4_dot(a, b))
 
-typedef struct {
-    float x, y, z, w;
+typedef struct vec4 {
+    union {
+        struct {float x, y, z, w};
+    };
+#if defined(__cplusplus)
+    constexpr vec4 operator+(const vec4 &o) const noexcept {
+        return {x + o.x, y + o.y, z + o.z, w + o.w};
+    }
+#endif
 } vec4_t;
 
 static inline vec4_t m_vec4_add(vec4_t a, vec4_t b) {
