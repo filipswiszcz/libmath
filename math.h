@@ -193,12 +193,33 @@ static inline vec3_t m_vec3_cross(vec3_t a, vec3_t b) {
 #define vec4_dot(a, b) (m_vec4_dot(a, b))
 
 typedef struct vec4 {
+#if defined(__cplusplus) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L)
     union {
-        struct {float x, y, z, w};
+        struct {float x, y, z, w;};
+        float data[4];
     };
+#else
+    float x, y, z, w;
+#endif
+
 #if defined(__cplusplus)
-    constexpr vec4 operator+(const vec4 &o) const noexcept {
-        return {x + o.x, y + o.y, z + o.z, w + o.w};
+    inline constexpr vec4(float _x, float _y, float _z, float w) noexcept : x{_x}, y{_y}, z{_z}, w{_w} {}
+    inline constexpr vec4() noexcept : x{0}, y{0}, z{0}, w{0} {}
+
+    inline constexpr vec4 operator+(const vec4 &o) const noexcept {
+        return {x + o.x, y + o.y, z + o.z};
+    }
+    inline constexpr const float &operator()(const int32_t i) const noexcept {
+        return data[i];
+    }
+    inline float &operator()(const int32_t i) {
+        return data[i];
+    }
+    inline constexpr const float &operator[](const int32_t i) const noexcept {
+        return data[i];
+    }
+    inline float &operator[](const int32_t i) {
+        return data[i];
     }
 #endif
 } vec4_t;
