@@ -82,9 +82,6 @@ typedef struct vec2 {
 #endif
 
 #if defined(__cplusplus)
-    inline constexpr vec2(float _x, float _y) noexcept : x{_x}, y{_y} {}
-    inline constexpr vec2() noexcept : x{0}, y{0} {}
-
     inline constexpr vec2 operator+(const vec2 &o) const noexcept {
         return {x + o.x, y + o.y};
     }
@@ -143,9 +140,6 @@ typedef struct vec3 {
 #endif
 
 #if defined(__cplusplus)
-    inline constexpr vec3(float _x, float _y, float _z) noexcept : x{_x}, y{_y}, z{_z} {}
-    inline constexpr vec3() noexcept : x{0}, y{0}, z{0} {}
-
     inline constexpr vec3 operator+(const vec3 &o) const noexcept {
         return {x + o.x, y + o.y, z + o.z};
     }
@@ -203,9 +197,6 @@ typedef struct vec4 {
 #endif
 
 #if defined(__cplusplus)
-    inline constexpr vec4(float _x, float _y, float _z, float w) noexcept : x{_x}, y{_y}, z{_z}, w{_w} {}
-    inline constexpr vec4() noexcept : x{0}, y{0}, z{0}, w{0} {}
-
     inline constexpr vec4 operator+(const vec4 &o) const noexcept {
         return {x + o.x, y + o.y, z + o.z};
     }
